@@ -23,13 +23,9 @@ const render = async () => {
 }
 
 const form = `
-  <style>body { font-family: sans-serif;}</style>
-  <h1>Guestbook</h1>
-  <p>Sign my guestbook</p>
+  <style>body { background: #f5f5f5; font-family: sans-serif; margin-left: auto; margin-right: auto; padding: 1em; width: 680px; color: #333; max-width: 89%;}</style>
   <form method="POST">
-    <label for="message">Write a message: </label><br>
-    <input type="text" id="message" name="message"><br>
-    <button>Send</button>
+    <input type="text" placeholder="Write a message" id="message" name="message"><br>
   </form>
   <p>
   ${await render()}

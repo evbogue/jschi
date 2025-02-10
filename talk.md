@@ -1,4 +1,8 @@
-# Everett Bogue
+# About me
+
+https://evbogue.com/
+
+773-510-8601
 
 + From Chicago circa 1985
 + JavaScript coder since 1999
@@ -12,43 +16,101 @@
 
 # The web was intended to be static (Web 1.0)
 
-> I just had to take the hypertext idea and connect it to the TCP and DNS ideas and — ta-da!— the World Wide Web — Tim Burners Lee
+> I just had to take the hypertext idea and connect it to the TCP and DNS ideas and — ta-da!— the World Wide Web — Tim Burners Lee, dude who invented the web
+
+```
+import { serveDir } from 'jsr:@std/http/file-server'
+
+Deno.serve(r => { return serveDir(r, {showDirListing: true})})
+```
 
 https://jschi.deno.dev/
+
+<iframe src='https://jschi.deno.dev/'></iframe>
 
 ---
 
 # Forms make the web single player (Web 2.0)
 
-> The Internet has always been, and always will be, a magic box. — Marc Andressen
+> The Internet has always been, and always will be, a magic box. — Marc Andressen, dude who invented the web browser
 
-Example 2. Web 1.0 Guestbook
+**Example 2.** Web 1.0 Guestbook
+
+```
+const app = new Hono()
+
+app.get('/', c => c.html(form))
+
+app.post('/', async c => {
+  const body = await c.req.parseBody()
+  db.push({content: body.message, timestamp: Date.now()})
+  return c.html(form + await render())
+})
+
+```
 
 https://jschi2.deno.dev/
 
+<iframe src='https://jschi2.deno.dev/'></iframe>
+
 Question: Will this type of app work on Serverless Servers?
-
-Example 3. Ntfy API -- Make Ev's phone buzz
-
-https://jschi.deno.dev/example3.html
 
 ---
 
-# But people want to interact on websites! (Multiplayer)
+**Example 3.** Ntfy API -- Make Ev's phone buzz
 
-> "I hate almost all software" — Ryan Dahl
+```
+fetch('https://ntfy.sh/evbogue', {
+  method: 'POST',
+  body: msg
+})
+```
+
+https://jschi.deno.dev/example3.html
+
+<iframe src='https://jschi.deno.dev/example3.html'></iframe>
+
+---
+
+# But people want to multiplayer websites!
+
+> "I hate almost all software" — Ryan Dahl, dude who invented Node/Deno
  
-Websockets?! HTMX? They require nonserverless servers.
+Websockets?! They require nonserverless servers.
 
 Let's try the BroadcastChannel API!
 
-Example 4: https://jschi4.deno.dev/
+```
+import { serveDir } from 'jsr:@std/http/file-server'
+
+const sockets = new Set()
+const channel = new BroadcastChannel("")
+
+channel.onmessage = e => {
+  (e.target != channel) && channel.postMessage(e.data)
+  sockets.forEach(s => s.send(e.data))
+}
+
+Deno.serve(r => {
+  try {
+    const { socket, response } = Deno.upgradeWebSocket(r)
+    sockets.add(socket)
+    socket.onmessage = channel.onmessage
+    socket.onclose = _ => sockets.delete(socket)
+    return response
+  } catch (err) { return serveDir(r) }
+})
+```
+
+Example 4: https://jschi4.deno.dev/example4.html
+
+<iframe src='https://jschi4.deno.dev/example4.html'></iframe>
 
 ---
 
 # How about WebRTC (web real-time communication)?
 
-> "Ultimately, in the Internet, openness has always won." — Eric Schmidt
+> "Ultimately, in the Internet, openness has always won." — Eric Schmidt, dude who paid for WebRTC
 
 https://webrtc.org/
 
@@ -58,7 +120,7 @@ No example. WebRTC is hard! I have to set up a STUN server? What is an ICE serve
 
 # Trystero! Build instant multiplayer webapps, no server required 
 
-> Trystero manages a clandestine courier network that lets your application's users talk directly with one another, encrypted and without a server middleman. — Dan Motzenbecker
+> Trystero manages a clandestine courier network that lets your application's users talk directly with one another, encrypted and without a server middleman. — Dan Motzenbecker, dude with a Github repo
 
 + Magic WebRTC matchmaking over BitTorrent, Nostr, MQTT, IPFS, Supabase, and Firebase 
 

@@ -1,32 +1,53 @@
-import { h } from './h.js'
-import { human } from './human.js'
 import { joinRoom, selfId } from './trystero-torrent.min.js'
+import { h } from './h.js'
 
-const render = async (id, message, timestamp) => {
-  const ts = h('span', [await human(new Date(parseInt(timestamp)))])
-  setInterval(async () => {ts.textContent = await human(new Date(parseInt(timestamp)))}, 100)
-  
-  return h('div', [`${id} ${message} - `, ts])
-}
+const room = joinRoom({appId: 'example6', password: 'blerg'}, 'channel6')
+
+const [send, receive] = room.makeAction('message')
+
+const [typing, typed] = room.makeAction('typing')
 
 const input = h('input', {
   placeholder: 'Write a message',
-  onkeyup: async ({key}) => { if (key === 'Enter') {
-    input.after(await render(selfId, input.value, Date.now()))
-    send({message: input.value, timestamp: Date.now()})
+  oninput: () => {
+    const get = document.getElementById(selfId)
+    if (get) { get.remove()}
+    const newDiv = h('div', {id: selfId}, [`${selfId} ${input.value}`])
+    input.after(newDiv)
+    typing({typing: input.value})
+  },
+  onkeyup: ({key}) => { if (key === 'Enter') {
+    const msg = h('div', [`${selfId} ${input.value}`])
+    input.after(msg)
+    send({message: input.value})
     input.value = ''
-  }}
-})
+    const get = document.getElementById(selfId)
+    get.remove()
+  }
+}})
 
 document.body.appendChild(input)
+input.after(h('div', {id: selfId}, [`${selfId} is here.`]))
 
-const room = joinRoom({appId: 'example3', password: '384759843!?!!!'}, 'room')
-const [send, receive] = room.makeAction('message')
+room.onPeerJoin(id => { input.after(h('div', {id}, [`${id} is here.`]))})
 
-room.onPeerJoin(id => { input.after(h('div', [`${id} joined room.`]))})
-room.onPeerLeave(id => { input.after(h('div', [`${id} left room.`]))})
+room.onPeerLeave(id => {
+  const get = document.getElementById(id)
+  if (get) {get.remove()}
+  input.after(h('div', {id}, [`${id} has left.`]))
+})
 
-receive(async (data, id) => {
-  input.after(await render(id, data.message, data.timestamp))
+receive((data, id) => {
+  input.after(h('div', [`${id} ${data.message}`]))
+  const get = document.getElementById(id)
+  if (get) { get.remove()}
+})
+
+typed((data, id) => {
+  const get = document.getElementById(id)
+  if (get) { get.remove() }
+  const peerDiv = h('div', {id})
+  peerDiv.textContent = id + ' ' + data.typing
+  input.after(peerDiv)
 })
 

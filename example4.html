@@ -1,0 +1,25 @@
+<link rel='stylesheet' type='text/css' href='style.css'>
+<input id='input'>
+<div id='scroller'>
+<script>
+  const ws = new WebSocket("ws://"+location.host)
+
+  const input = document.getElementById('input')
+
+  input.onkeyup = async ({key}) => { 
+    if (key === 'Enter') {
+      ws.send(input.value)
+      input.value = ''
+    }
+  }
+
+  const scroller = document.getElementById('scroller')
+  ws.onmessage = e => {
+    const msg = document.createElement('div')
+    msg.textContent = e.data 
+    scroller.insertBefore(msg, scroller.firstChild)
+    
+  }
+</script>
+
+

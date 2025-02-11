@@ -6,6 +6,8 @@
 
   const input = document.getElementById('input')
 
+  input.placeholder = 'BroadcastChannel a message'
+
   input.onkeyup = async ({key}) => { 
     if (key === 'Enter') {
       ws.send(input.value)

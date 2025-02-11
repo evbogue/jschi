@@ -1,22 +1,25 @@
-# About me
 
-https://evbogue.com/
+# Make your website multiplayer with Trystero WebRTC.
 
-773-510-8601
+A talk at Chicago JavaScript on Feb 11 2025 by Everett Bogue
 
-+ From Chicago circa 1985
-+ JavaScript coder since 1999
-+ Developing the Bog5 distributed messaging protocol
-+ Kayak Guide on the Chicago River (during Kayaking season) since 2024
-+ Former substitute middle manager for a Californa-based company (at the mall)
-+ Developed "Decent", a client (and an alt-network) for Secure Scuttlebot in 2016
-+ Frequent speaker on JavaScripts in Chicago since 2018
+> "The computer revolution hasn't happened yet." - Alan Kay, dude who worked at Xerox PARC
 
----
+Almost every super successful website on the Internet is multiplayer. Your homepage is usually singleplayer.
 
-# The web was intended to be static (Web 1.0)
+Facebook, Whatsapp, Insta, Twitter, X, Bluesky, Discord, Telegram, Myspace, AIM, Livejournal, Blogger, and never forget Google+. 
+
+ChatGPT is kind of multiplayer...? 
+
+Multiplayer websites (and text messaging) have mostly replaced electronic mail as the way we collaborate in multiplayer environments online.
+
+Questions: can anyone name a multiplayer website that I forgot?
+
+# In the beginning the web was static (Web 1.0)
 
 > I just had to take the hypertext idea and connect it to the TCP and DNS ideas and — ta-da!— the World Wide Web — Tim Burners Lee, dude who invented the web
+
+Once upon a time we were all webmasters...
 
 ```
 import { serveDir } from 'jsr:@std/http/file-server'
@@ -24,17 +27,21 @@ import { serveDir } from 'jsr:@std/http/file-server'
 Deno.serve(r => { return serveDir(r, {showDirListing: true})})
 ```
 
+**Example 1.** Static web server
+
 https://jschi.deno.dev/
 
 <iframe src='https://jschi.deno.dev/'></iframe>
 
 ---
 
-# Forms make the web single player (Web 2.0)
+# Forms made the web singleplayer (Web 2.0)
 
 > The Internet has always been, and always will be, a magic box. — Marc Andressen, dude who invented the web browser
 
-**Example 2.** Web 1.0 Guestbook
+**Example 2.** Web 2.0 Guestbook
+
+For this example we'll define single player as in the client dials the server which authorizes the "user".
 
 ```
 const app = new Hono()
@@ -53,7 +60,7 @@ https://jschi2.deno.dev/
 
 <iframe src='https://jschi2.deno.dev/'></iframe>
 
-Question: Will this type of app work on Serverless Servers?
+Question: Will this type of app work on serverless servers?
 
 ---
 
@@ -72,17 +79,15 @@ https://jschi.deno.dev/example3.html
 
 ---
 
-# But people want to multiplayer websites!
+# But people want multiplayer websites!
 
-> "I hate almost all software" — Ryan Dahl, dude who invented Node/Deno
- 
+> "I hate almost all software" — Ryan Dahl, dude who invented Node and Deno
+
 Websockets?! They require nonserverless servers.
 
 Let's try the BroadcastChannel API!
 
 ```
-import { serveDir } from 'jsr:@std/http/file-server'
-
 const sockets = new Set()
 const channel = new BroadcastChannel("")
 
@@ -112,7 +117,7 @@ Example 4: https://jschi4.deno.dev/example4.html
 
 > "Ultimately, in the Internet, openness has always won." — Eric Schmidt, dude who paid for WebRTC
 
-https://webrtc.org/
+https://developer.mozilla.org/en-US/docs/Web/API/WebRTC_API
 
 No example. WebRTC is hard! I have to set up a STUN server? What is an ICE server?! 
 
@@ -139,6 +144,8 @@ room.onPeerLeave(id => {})
 
 Example 5: https://jschi.deno.dev/example5.html
 
+<iframe src='https://jschi.deno.dev/example5.html'></iframe>
+
 ---
 
 # Trystero Wave
@@ -153,12 +160,19 @@ input.oninput: () => {
 
 Example 6: https://jschi.deno.dev/example6.html
 
+<iframe src=' https://jschi.deno.dev/example6.html'></iframe>
+
 ---
 
 # Trystero Video
 
 ```
+const room = await joinRoom({appId, password}, src)
+
 const selfStream = await navigator.mediaDevices.getUserMedia({ audio: true, video: true})
+
+room.onPeerJoin(id => { room.addStream(selfStream) })
+
 room.onPeerStream((stream, id) => { ... }
 ```
 
@@ -177,4 +191,26 @@ Questions?
 
 # Homework
 
-+ Distributed AI Chat! Trystero into Ollama running behind NAT in your home office/garage.
++ Distributed AI Chat! Trystero into Ollama running behind NAT in your home office/garage
++ Trystero security camera using an old computer
++ Use Trystero to design a gossiped content-addressable signed messaging system
+
+---
+
+# About me
+
+https://evbogue.com/
+
+https://wiredove.net/ (what you're lookin' at)
+
+773-510-8601
+
++ From Chicago circa 1985
++ JavaScript coder since 1999
++ Developing the Bog5 distributed messaging protocol
++ Kayak Guide on the Chicago River (during Kayaking season) since 2024
++ Former substitute middle manager for a Californa-based company (at the mall)
++ Developed "Decent", a client (and an alt-network) for Secure Scuttlebot in 2016
++ Frequent speaker on JavaScripts in Chicago since 2018
+
+https://www.linkedin.com/in/evbogue/

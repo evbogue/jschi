@@ -23,9 +23,10 @@ const render = async () => {
 }
 
 const form = `
-  <style>body { background: #f5f5f5; font-family: sans-serif; margin-left: auto; margin-right: auto; padding: 1em; width: 680px; color: #333; max-width: 89%;}</style>
+  <style>body { background: #f5f5f5; font-family: sans-serif; margin-left: auto; margin-right: auto; padding: 1em; width: 680px; color: #333; max-width: 89%;} 
+  input { font-size: 1em; font-family: sans-serif; border: 1px solid #e4e4e4; border-radius: 5px; background: #fff; color: #555; padding: 5px; box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075)}</style>
   <form method="POST">
-    <input type="text" placeholder="Write a message" id="message" name="message"><br>
+    <input type="text" placeholder="Sign my Guestbook" id="message" name="message"><br>
   </form>
   <p>
   ${await render()}

@@ -16,5 +16,7 @@ the Hono example uses
 deno serve -a example2.js
 ```
 
+You can try to sync the talk on [Wiredove](https://wiredove.net/#evV0NdGf55+k5xho0oLB9zINdI+cfQ+iUTDeK49Ml8U=aa3nBZvi0vfjFpXsToJfUuhhPq4k81jXX3DNJmOz5HvQbCNPE2QbbLQ6NMbNJxmsMne6aCIzBxdFkSULh8GlBjE3MzkzMDczMzc0MzVYUXM5cGIvN1BpM3hTUTlBQTh2N0FjUzV1OS9MN1Q0NFFOOGVZVkNQbnprPQ==) if you feel adventurous. 
+
 ---
 MIT
